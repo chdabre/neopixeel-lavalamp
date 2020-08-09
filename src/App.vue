@@ -1,28 +1,54 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <canvas id="matrixCanvas" width="75" height="750"></canvas>
+    <label>
+      <input type="checkbox" v-model="showGrid">
+      Show Grid
+    </label>
+    <label>
+      <input type="checkbox" v-model="showPixels">
+      Show Pixels
+    </label>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import AnimationController from './services/animationController';
+import Bounce from './services/animations/bounce';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      controller: null,
+      socket: null,
+      showPixels: true,
+      showGrid: false,
+    };
+  },
+  mounted() {
+    const canvasEl = document.getElementById('matrixCanvas');
+
+    this.controller = new AnimationController(canvasEl);
+
+    setInterval(this.drawAnimationFrame, 1000 / AnimationController.FRAMERATE);
+
+    this.controller.setAnimation(new Bounce(this.controller));
+
+    this.socket = new WebSocket('ws://10.0.0.82');
+  },
+  methods: {
+    drawAnimationFrame() {
+      // eslint-disable-next-line no-unused-vars
+      const stripData = this.controller.draw(this.showGrid, this.showPixels);
+      if (this.socket !== null) this.socket.send(stripData.map((el) => el.join(',')).join(';'));
+    },
   },
 };
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#matrixCanvas {
+  background-color: black;
 }
 </style>
