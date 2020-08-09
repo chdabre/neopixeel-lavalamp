@@ -1,5 +1,5 @@
 export default class AnimationController {
-  static FRAMERATE = 30;
+  static FRAMERATE = 60;
 
   constructor(canvasElement) {
     this.ctx = canvasElement.getContext('2d');
@@ -45,12 +45,18 @@ export default class AnimationController {
 
     for (let i = 0; i < rows; i += 1) {
       for (let j = 0; j < cols; j += 1) {
-        const cell = this.sampleRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-        strip[i * cols + j] = [cell.R, cell.G, cell.B];
+        const cellColor = this.sampleRectAverageColor(
+          j * cellWidth,
+          i * cellHeight,
+          cellWidth,
+          cellHeight,
+        );
 
-        if (showPixels && cell.R + cell.G + cell.B > 0) {
+        strip[i * cols + j] = [cellColor.R, cellColor.G, cellColor.B];
+
+        if (showPixels && cellColor.R + cellColor.G + cellColor.B > 0) {
           ctx.filter = 'none';
-          ctx.fillStyle = `rgb(${cell.R},${cell.G},${cell.B})`;
+          ctx.fillStyle = `rgb(${cellColor.R},${cellColor.G},${cellColor.B})`;
           ctx.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
         }
       }
@@ -84,7 +90,7 @@ export default class AnimationController {
     }
   }
 
-  sampleRect(x, y, width, height) {
+  sampleRectAverageColor(x, y, width, height) {
     const { ctx } = this;
 
     let R = 0; let G = 0; let B = 0; let A = 0;
