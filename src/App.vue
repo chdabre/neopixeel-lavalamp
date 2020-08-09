@@ -48,7 +48,4 @@ export default {
 </script>
 
 <style lang="scss">
-#matrixCanvas {
-  background-color: black;
-}
 </style>

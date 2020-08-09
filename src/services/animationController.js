@@ -28,7 +28,8 @@ export default class AnimationController {
 
   clear() {
     const { ctx, width, height } = this;
-    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, width, height);
   }
 
   drawPixelGrid(showPixels) {
@@ -48,6 +49,7 @@ export default class AnimationController {
         strip[i * cols + j] = [cell.R, cell.G, cell.B];
 
         if (showPixels && cell.R + cell.G + cell.B > 0) {
+          ctx.filter = 'none';
           ctx.fillStyle = `rgb(${cell.R},${cell.G},${cell.B})`;
           ctx.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
         }
@@ -62,6 +64,7 @@ export default class AnimationController {
     const cols = 3;
     const rows = 30;
 
+    ctx.filter = 'none';
     ctx.strokeStyle = 'white';
 
     for (let i = 1; i < cols; i += 1) {

@@ -10,6 +10,8 @@ export default class Bounce {
   draw() {
     const { ctx, width, height } = this.controller;
 
+    ctx.filter = 'blur(30px)';
+
     ctx.beginPath();
     ctx.arc(this.xPos, this.yPos, 50, 0, 2 * Math.PI, false);
     ctx.fillStyle = `hsl(${this.yPos % 360}, 100%, 50%)`;
