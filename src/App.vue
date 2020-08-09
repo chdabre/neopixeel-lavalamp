@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <canvas id="matrixCanvas" width="75" height="750"></canvas>
+    <div class="canvas-container">
+      <canvas id="matrixCanvas" width="75" height="750"></canvas>
+    </div>
     <label>
       <input type="checkbox" v-model="showGrid">
       Show Grid
@@ -35,7 +37,7 @@ export default {
 
     this.controller.setAnimation(new Bounce(this.controller));
 
-    this.socket = new WebSocket('ws://10.0.0.82');
+    // this.socket = new WebSocket('ws://10.0.0.82');
   },
   methods: {
     drawAnimationFrame() {
@@ -48,4 +50,15 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  height: 100%;
+}
+.canvas-container {
+  height: 100%;
+}
 </style>
