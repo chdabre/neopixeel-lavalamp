@@ -11,6 +11,10 @@
       <input type="checkbox" v-model="showPixels">
       Show Pixels
     </label>
+    <label>
+      <input type="checkbox" v-model="sendToLamp">
+      Send to Lamp
+    </label>
   </div>
 </template>
 
@@ -24,8 +28,10 @@ export default {
     return {
       controller: null,
       socket: null,
-      showPixels: true,
+      showPixels: false,
       showGrid: false,
+      ack: true,
+      sendToLamp: false,
     };
   },
   mounted() {
@@ -37,13 +43,22 @@ export default {
 
     this.controller.setAnimation(new Bounce(this.controller));
 
-    // this.socket = new WebSocket('ws://10.0.0.82');
+    this.socket = new WebSocket('ws://10.0.0.83');
+    this.socket.onmessage = () => {
+      this.ack = true;
+    };
   },
   methods: {
     drawAnimationFrame() {
       // eslint-disable-next-line no-unused-vars
       const stripData = this.controller.draw(this.showGrid, this.showPixels);
-      if (this.socket !== null) this.socket.send(stripData.map((el) => el.join(',')).join(';'));
+      if (this.socket !== null && this.socket.readyState === WebSocket.OPEN) {
+        const data = JSON.stringify(stripData.flat());
+        if (this.ack && this.sendToLamp) {
+          this.socket.send(data);
+          this.ack = false;
+        }
+      }
     },
   },
 };

@@ -1,5 +1,5 @@
 export default class AnimationController {
-  static FRAMERATE = 60;
+  static FRAMERATE = 30;
 
   constructor(canvasElement) {
     this.ctx = canvasElement.getContext('2d');
