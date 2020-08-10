@@ -11,12 +11,17 @@
       <input type="checkbox" v-model="showPixels">
       Show Pixels
     </label>
+    <div id="example-1">
+      <button v-on:click="counterAdd()">Change mode</button>
+      <p>You have selected mode {{ counter }}.</p>
+    </div>
   </div>
 </template>
 
 <script>
 import AnimationController from './services/animationController';
 import Bounce from './services/animations/bounce';
+import Blink from './services/animations/blink';
 
 export default {
   name: 'App',
@@ -26,6 +31,8 @@ export default {
       socket: null,
       showPixels: true,
       showGrid: false,
+      counter: 1,
+      optionCount: 2,
     };
   },
   mounted() {
@@ -44,6 +51,21 @@ export default {
       // eslint-disable-next-line no-unused-vars
       const stripData = this.controller.draw(this.showGrid, this.showPixels);
       if (this.socket !== null) this.socket.send(stripData.map((el) => el.join(',')).join(';'));
+    },
+    counterAdd() {
+      if (this.counter < this.optionCount) {
+        this.counter += 1;
+      } else this.counter = 1;
+      switch (this.counter) {
+        case 1:
+          this.controller.setAnimation(new Bounce(this.controller));
+          break;
+        case 2:
+          this.controller.setAnimation(new Blink(this.controller));
+          break;
+        default:
+          break;
+      }
     },
   },
 };

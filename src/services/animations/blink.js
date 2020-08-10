@@ -28,11 +28,11 @@ class Ball {
   }
 }
 
-export default class Bounce {
+export default class Blink {
   constructor(controller) {
     this.balls = [];
 
-    for (let i = 0; i < 1; i += 1) {
+    for (let i = 0; i < 2; i += 1) {
       this.balls[i] = new Ball(controller);
     }
   }
