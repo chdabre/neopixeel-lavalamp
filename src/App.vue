@@ -48,7 +48,7 @@ export default {
 
     setInterval(this.drawAnimationFrame, 1000 / AnimationController.FRAMERATE);
 
-    this.controller.setAnimation(new Bounce(this.controller));
+    this.controller.setAnimation(new Blink(this.controller));
 
     this.socket = new WebSocket('ws://10.0.0.83');
     this.socket.onmessage = () => {
