@@ -19,6 +19,9 @@
       <button v-on:click="counterAdd()">Change mode</button>
       <p>You have selected mode {{ counter }}.</p>
     </div>
+    <div class="slidecontainer">
+      <input type="range" min="1" max="10" value="5" class="slider" id="blinkSpeed">
+    </div>
   </div>
 </template>
 
@@ -26,6 +29,8 @@
 import AnimationController from './services/animationController';
 import Bounce from './services/animations/bounce';
 import Blink from './services/animations/blink';
+import Pulse from './services/animations/pulse';
+import SlowColorwheel from './services/animations/slowColorwheel';
 
 export default {
   name: 'App',
@@ -37,8 +42,8 @@ export default {
       showGrid: false,
       ack: true,
       sendToLamp: false,
-      counter: 1,
-      optionCount: 2,
+      counter: 4,
+      optionCount: 4,
     };
   },
   mounted() {
@@ -54,6 +59,10 @@ export default {
     this.socket.onmessage = () => {
       this.ack = true;
     };
+    const slider = document.getElementById('blinkSpeed');
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = this.controller.animation.setBlinkSpeed(slider.value);
   },
   methods: {
     drawAnimationFrame() {
@@ -67,6 +76,7 @@ export default {
         }
       }
     },
+    // this.controller.Animation.Penis()
     counterAdd() {
       if (this.counter < this.optionCount) {
         this.counter += 1;
@@ -77,6 +87,12 @@ export default {
           break;
         case 2:
           this.controller.setAnimation(new Blink(this.controller));
+          break;
+        case 3:
+          this.controller.setAnimation(new Pulse(this.controller));
+          break;
+        case 4:
+          this.controller.setAnimation(new SlowColorwheel(this.controller));
           break;
         default:
           break;

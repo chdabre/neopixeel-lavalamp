@@ -1,5 +1,5 @@
 // eslint-disable-next-line max-classes-per-file
-export default class Blink {
+export default class Pulse {
   constructor(controller) {
     this.controller = controller;
     const { width, height } = this.controller;
@@ -7,16 +7,16 @@ export default class Blink {
 
     this.xPos = Math.random() * width;
     this.yPos = Math.random() * height;
-    this.color = Math.random() * 360;
+    this.color = 360;
     this.timeNow = Date.now();
   }
 
   draw() {
     // eslint-disable-next-line no-unused-vars
     const { ctx, width, height } = this.controller;
-    ctx.filter = 'blur(20px)';
+    // ctx.filter = 'blur(20px)';
     ctx.beginPath();
-    ctx.arc(this.xPos, this.yPos, 20, 0, 2 * Math.PI, false);
+    ctx.rect(0, 0, width, height);
     ctx.fillStyle = `hsl(${this.color}, 100%, 50%)`;
     ctx.fill();
     ctx.font = '15px Arial';
@@ -28,9 +28,5 @@ export default class Blink {
       this.yPos = Math.random() * height;
       this.timeNow = Date.now();
     }
-  }
-
-  setBlinkSpeed(SliderValue) {
-    this.interval = SliderValue * 100;
   }
 }
