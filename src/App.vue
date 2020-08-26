@@ -15,10 +15,20 @@
       <input type="checkbox" v-model="sendToLamp">
       Send to Lamp
     </label>
-    <div id="example-1">
-      <button v-on:click="counterAdd()">Change mode</button>
-      <p>You have selected mode {{ counter }}.</p>
-    </div>
+    <br>
+    <label>
+      Select Animation
+      <select v-model="selectedAnimation" @change="selectAnimation">
+        <option
+          v-for="animation in installedAnimations"
+          :key="animation.name"
+          :value="animation"
+        >
+          {{ animation.name }}
+        </option>
+      </select>
+    </label>
+
     <div class="slidecontainer">
       <input type="range" min="1" max="10" value="5" class="slider" id="blinkSpeed">
     </div>
@@ -32,6 +42,13 @@ import Blink from './services/animations/blink';
 import Pulse from './services/animations/pulse';
 import SlowColorwheel from './services/animations/slowColorwheel';
 
+const installedAnimations = [
+  Blink,
+  Bounce,
+  Pulse,
+  SlowColorwheel,
+];
+
 export default {
   name: 'App',
   data() {
@@ -42,8 +59,8 @@ export default {
       showGrid: false,
       ack: true,
       sendToLamp: false,
-      counter: 4,
-      optionCount: 4,
+      selectedAnimation: Blink,
+      installedAnimations,
     };
   },
   mounted() {
@@ -53,7 +70,8 @@ export default {
 
     setInterval(this.drawAnimationFrame, 1000 / AnimationController.FRAMERATE);
 
-    this.controller.setAnimation(new Blink(this.controller));
+    const AnimationClass = this.selectedAnimation;
+    this.controller.setAnimation(new AnimationClass(this.controller));
 
     this.socket = new WebSocket('ws://10.0.0.83');
     this.socket.onmessage = () => {
@@ -76,27 +94,9 @@ export default {
         }
       }
     },
-    // this.controller.Animation.Penis()
-    counterAdd() {
-      if (this.counter < this.optionCount) {
-        this.counter += 1;
-      } else this.counter = 1;
-      switch (this.counter) {
-        case 1:
-          this.controller.setAnimation(new Bounce(this.controller));
-          break;
-        case 2:
-          this.controller.setAnimation(new Blink(this.controller));
-          break;
-        case 3:
-          this.controller.setAnimation(new Pulse(this.controller));
-          break;
-        case 4:
-          this.controller.setAnimation(new SlowColorwheel(this.controller));
-          break;
-        default:
-          break;
-      }
+    selectAnimation() {
+      const AnimationClass = this.selectedAnimation;
+      this.controller.setAnimation(new AnimationClass(this.controller));
     },
   },
 };

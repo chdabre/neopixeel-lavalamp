@@ -1,5 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 class Ball {
+  static name = 'Ball';
+
   constructor(controller) {
     this.controller = controller;
     const { width, height } = controller;

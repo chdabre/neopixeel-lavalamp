@@ -1,5 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 export default class Pulse {
+  static name = 'Pulse';
+
   constructor(controller) {
     this.controller = controller;
     const { width, height } = this.controller;

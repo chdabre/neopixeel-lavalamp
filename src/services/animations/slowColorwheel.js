@@ -1,5 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 export default class SlowColorwheel {
+  static name = 'Slow Colorwheel';
+
   constructor(controller) {
     this.controller = controller;
     this.interval = 100;

@@ -1,5 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 export default class Blink {
+  static name = 'Blink';
+
   constructor(controller) {
     this.controller = controller;
     const { width, height } = this.controller;
