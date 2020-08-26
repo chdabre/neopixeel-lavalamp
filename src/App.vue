@@ -15,6 +15,9 @@
       <input type="checkbox" v-model="sendToLamp">
       Send to Lamp
     </label>
+    <div id="example-1">
+      <button @click="switchColor">Random Color</button>
+    </div>
     <br>
     <label>
       Select Animation
@@ -41,12 +44,16 @@ import Bounce from './services/animations/bounce';
 import Blink from './services/animations/blink';
 import Pulse from './services/animations/pulse';
 import SlowColorwheel from './services/animations/slowColorwheel';
+import ButtonTest from './services/animations/buttonTest';
+import RandomColorSwitch from './services/animations/randomColorSwitch';
 
 const installedAnimations = [
   Blink,
   Bounce,
   Pulse,
   SlowColorwheel,
+  ButtonTest,
+  RandomColorSwitch,
 ];
 
 export default {
@@ -83,6 +90,9 @@ export default {
     slider.oninput = this.controller.animation.setBlinkSpeed(slider.value);
   },
   methods: {
+    switchColor() {
+      this.controller.animation.switchColor();
+    },
     drawAnimationFrame() {
       // eslint-disable-next-line no-unused-vars
       const stripData = this.controller.draw(this.showGrid, this.showPixels);

@@ -12,7 +12,7 @@ export default class SlowColorwheel {
   draw() {
     // eslint-disable-next-line no-unused-vars
     const { ctx, width, height } = this.controller;
-    // ctx.filter = 'blur(20px)';
+    ctx.filter = 'blur(0px)';
     ctx.beginPath();
     ctx.rect(0, 0, width, height);
     ctx.fillStyle = `hsl(${this.color}, 100%, 50%)`;

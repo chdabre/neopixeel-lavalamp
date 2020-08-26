@@ -1,18 +1,16 @@
 // eslint-disable-next-line max-classes-per-file
-export default class Pulse {
-  static name = 'Pulse';
+export default class ButtonTest {
+  static name = 'Button Test';
 
   constructor(controller) {
     this.controller = controller;
     const { width, height } = this.controller;
-    this.interval = 1;
+    this.interval = 1000;
 
     this.xPos = Math.random() * width;
     this.yPos = Math.random() * height;
-    this.color = Math.random() * 360;
+    this.color = 360;
     this.timeNow = Date.now();
-    this.luminance = 1;
-    this.speed = 0.5;
   }
 
   draw() {
@@ -21,23 +19,20 @@ export default class Pulse {
     ctx.filter = 'blur(0px)';
     ctx.beginPath();
     ctx.rect(0, 0, width, height);
-    ctx.fillStyle = `hsl(${this.color}, 100%, ${this.luminance}%)`;
+    ctx.fillStyle = `hsl(${this.color}, 100%, 50%)`;
     ctx.fill();
     ctx.font = '15px Arial';
     ctx.fillStyle = 'white';
-    // ctx.fillText(this.luminance, 0, height);
+    // ctx.fillText(Date.now() - this.timeNow, 0, height);
     if (Date.now() - this.timeNow > this.interval) {
+      // this.color = Math.random() * 360;
       this.xPos = Math.random() * width;
       this.yPos = Math.random() * height;
       this.timeNow = Date.now();
-      this.luminance += this.speed;
-      if (this.luminance >= 50) {
-        this.speed *= -1;
-      }
-      if (this.luminance <= 0) {
-        this.speed *= -1;
-        this.color = Math.random() * 360;
-      }
     }
+  }
+
+  switchColor() {
+    this.color = Math.random() * 360;
   }
 }

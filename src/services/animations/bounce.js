@@ -17,8 +17,7 @@ class Ball {
   draw() {
     const { ctx, width, height } = this.controller;
 
-    // ctx.filter = 'blur(20px)';
-
+    ctx.filter = 'blur(0px)';
     ctx.beginPath();
     ctx.arc(this.xPos, this.yPos, 20, 0, 2 * Math.PI, false);
     ctx.fillStyle = `hsl(${(this.colorOffset + this.yPos) % 360}, 100%, 50%)`;
